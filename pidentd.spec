@@ -11,8 +11,8 @@ Patch2:		pidentd-3.0.10-install.patch
 Patch3:		pidentd-3.0.11-nossl.patch
 Patch4:		pidentd-3.0.14-remove_o.patch
 Patch5:		pidentd-3.0.19-pinit.patch
-Requires(post): pm-helper
-Requires(preun): pm-helper
+Requires(post): rpm-helper
+Requires(preun): rpm-helper
 Provides:	identd
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
@@ -69,5 +69,3 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/identd.conf
 %{_initrddir}/identd
 %{_mandir}/man8/*
-
-
