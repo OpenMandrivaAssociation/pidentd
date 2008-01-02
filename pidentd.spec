@@ -14,6 +14,7 @@ Patch5:		pidentd-3.0.19-pinit.patch
 Requires(post): rpm-helper
 Requires(preun): rpm-helper
 Provides:	identd
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot
 
 %description
 The pidentd package contains identd, which implements the RFC1413
