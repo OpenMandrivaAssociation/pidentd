@@ -47,9 +47,9 @@ mkdir -p %{buildroot}%{_mandir}/man8
 
 %makeinstall
 
-ln -s identd ${RPM_BUILD_ROOT}%{_sbindir}/in.identd
+ln -s identd %{buildroot}%{_sbindir}/in.identd
 # dangling symlink (typo ?)
-#ln -s identd.8 ${RPM_BUILD_ROOT}%{_sbindir}/in.identd.8
+#ln -s identd.8 %{buildroot}%{_sbindir}/in.identd.8
 install -m0644 %{SOURCE1} -D %{buildroot}%{_sysconfdir}/identd.conf
 install -m755 etc/identd.init -D %{buildroot}%{_initrddir}/identd
 
