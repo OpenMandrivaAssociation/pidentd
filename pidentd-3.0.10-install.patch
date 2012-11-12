@@ -1,0 +1,125 @@
+diff -Naur pidentd-3.0.10-orig/etc/identd.conf pidentd-3.0.10/etc/identd.conf
+--- pidentd-3.0.10-orig/etc/identd.conf	Thu Jan 21 00:59:26 1999
++++ pidentd-3.0.10/etc/identd.conf	Mon Apr  3 15:30:32 2000
+@@ -1,4 +1,4 @@
+-# /usr/local/etc/identd.conf - an example configuration file
++# /etc/identd.conf - an example configuration file
+ 
+ 
+ #-- The syslog facility for error messages
+@@ -18,7 +18,7 @@
+ # server:backlog = 256
+ 
+ #-- Where to write the file containing our process id
+-# server:pid-file = "/etc/identd.pid"
++server:pid-file = "/var/run/identd.pid"
+ 
+ #-- Maximum number of concurrent requests allowed (0 = unlimited)
+ # server:max-requests = 0
+@@ -37,7 +37,7 @@
+ 
+ 
+ #-- Maximum number of threads doing kernel lookups
+-# kernel:threads = 8
++kernel:threads = 2
+ 
+ #-- Maximum number of queued kernel lookup requests
+ # kernel:buffers = 32
+@@ -67,7 +67,7 @@
+ # result:encrypt = no
+ 
+ #-- Path to the DES key file (only available if linked with a DES library)
+-# encrypt:key-file = "/usr/local/etc/identd.key"
++# encrypt:key-file = "/etc/identd.key"
+ 
+ 
+ #-- Include a machine local configuration file
+diff -Naur pidentd-3.0.10-orig/etc/identd.init pidentd-3.0.10/etc/identd.init
+--- pidentd-3.0.10-orig/etc/identd.init	Thu Jan 21 00:59:26 1999
++++ pidentd-3.0.10/etc/identd.init	Mon Apr  3 15:30:38 2000
+@@ -1,34 +1,61 @@
+-#!/bin/sh
++#! /bin/sh
+ #
+-# identd control script
++# identd	Start/Stop RFC 1413 identd server
+ #
+-# You probably want to modify this!
+-#
+-
+-PIDFILE=/etc/identd.pid
+-IDENTD=/usr/local/sbin/identd
++# chkconfig: 345 35 65
++# description:	The identd server provides a means to determine the identity
++#		of a user of a particular TCP connection.  Given a TCP port
++#		number pair, it returns a character string which identifies
++#		the owner of that connection on the server's system.
++# processname: identd
++# pidfile: /var/run/identd.pid
++# config: /etc/identd.conf
++
++# Source function library.
++. /etc/rc.d/init.d/functions
++
++# Get config.
++. /etc/sysconfig/network
++
++# Check that networking is up.
++if [ ${NETWORKING} = "no" ]
++then
++	exit 0
++fi
+ 
++[ -x /usr/sbin/identd ] || exit 0
+ 
+-if [ -f $PIDFILE ]; then
+-	pid=`cat $PIDFILE`
+-fi
++IDENTDOPTS="-e -o"
++RETVAL=0
+ 
+-case $1 in
+-'start')
+-	if [ -x $IDENTD ]; then
+-		echo "Starting Identd"
+-		$IDENTD
+-	fi
++# See how we were called.
++case "$1" in
++  start)
++	echo -n "Starting identd: "
++	daemon identd $IDENTDOPTS
++	RETVAL=$?
++	echo
++	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/identd
+ 	;;
+-
+-'stop')
+-	if [ "${pid}" != "" ]; then
+-		/usr/bin/kill ${pid}
+-	fi
++  stop)
++	echo -n "Stopping identd services: "
++	killproc identd
++	RETVAL=$?
++	echo
++	[ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/identd
+ 	;;
+-
+-*)
+-	echo 'usage: /etc/init.d/identd {start|stop}'
++  status)
++	status identd
++	RETVAL=$?
++	;;
++  restart|reload)
++	$0 stop
++	$0 start
++	RETVAL=$?
+ 	;;
++  *)
++	echo "Usage: identd {start|stop|status|restart|reload}"
++	exit 1
+ esac
+ 
++exit $RETVAL

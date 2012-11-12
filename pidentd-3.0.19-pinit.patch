@@ -1,0 +1,21 @@
+--- pidentd-3.0.19/etc/identd.init.pinit	2006-01-09 05:00:54.000000000 +0100
++++ pidentd-3.0.19/etc/identd.init	2006-01-09 05:01:14.000000000 +0100
+@@ -10,6 +10,18 @@
+ # processname: identd
+ # pidfile: /var/run/identd.pid
+ # config: /etc/identd.conf
++#
++### BEGIN INIT INFO
++# Provides: identd
++# Required-Start: $network
++# Required-Stop: $network
++# Default-Start: 3 4 5
++# Short-Description: Start/Stop RFC 1413 identd server
++# Description: The identd server provides a means to determine the identity
++#              of a user of a particular TCP connection.  Given a TCP port
++#              number pair, it returns a character string which identifies
++#              the owner of that connection on the server's system.
++### END INIT INFO
+ 
+ # Source function library.
+ . /etc/rc.d/init.d/functions

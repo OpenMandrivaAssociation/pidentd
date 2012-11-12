@@ -1,0 +1,12 @@
+diff -Naur pidentd-3.0.14.orig/etc/identd.init pidentd-3.0.14/etc/identd.init
+--- pidentd-3.0.14.orig/etc/identd.init	Fri Oct 26 14:07:57 2001
++++ pidentd-3.0.14/etc/identd.init	Fri Oct 26 14:11:15 2001
+@@ -25,7 +25,7 @@
+ 
+ [ -x /usr/sbin/identd ] || exit 0
+ 
+-IDENTDOPTS="-e -o"
++IDENTDOPTS="-e"
+ RETVAL=0
+ 
+ # See how we were called.

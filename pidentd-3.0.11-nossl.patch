@@ -1,0 +1,70 @@
+--- pidentd-3.0.11/configure.in.chmou	Sun May 21 21:05:33 2000
++++ pidentd-3.0.11/configure.in	Mon Jul 17 19:00:04 2000
+@@ -84,31 +84,6 @@
+ 	fi
+ fi
+ 
+-AC_ARG_WITH(des,
+-[  --with-des[=ARG]        enable usage of DES encryption [ARG=yes]])
+-
+-AC_ARG_WITH(des-includes,
+-[  --with-des-includes=DIR DES include files are in DIR])
+-AC_ARG_WITH(des-libraries,
+-[  --with-des-libraries=DIR DES library file are in DIR])
+-
+-if test "$with_des_includes"; then
+-	CPPFLAGS="$CPPFLAGS -I$with_des_includes"
+-	if test "$with_des" = ""; then
+-		with_des=yes
+-	fi
+-fi
+-
+-if test "$with_des_libraries"; then
+-	LDFLAGS="$LDFLAGS -L$with_des_libraries"
+-	dnl How to handle -R$with_des_libraries ???
+-	if test "$with_des" = ""; then
+-		with_des=yes
+-	fi
+-fi
+-
+-
+-
+ AC_CANONICAL_HOST
+ 
+ need_libkvm=yes
+@@ -283,35 +258,6 @@
+ 
+ CRYPTO_PROGRAMS=
+ CRYPTO_OBJS=
+-
+-if test "$with_des" = "" || test "$with_des" = "yes";then
+-	dnl check in SSLeay -lcrypto
+-	AC_CHECK_HEADERS(des.h)
+-	AC_CHECK_HEADERS(openssl/des.h)
+-	AC_CHECK_HEADERS(rand.h)
+-	AC_CHECK_HEADERS(openssl/rand.h)
+-	AC_CHECK_LIB(crypto, RAND_bytes)
+-	if test "$ac_cv_lib_crypto_RAND_bytes" = "yes"; then
+-		AC_DEFINE(HAVE_RAND_BYTES, 1)
+-		AC_DEFINE(HAVE_LIBDES, 1)
+-		CRYPTO_PROGRAMS="idecrypt ikeygen"
+-		CRYPTO_OBJS="pdes.o"
+-	else
+-		dnl check for the -ldes library instead
+-		AC_CHECK_LIB(des, des_set_key)
+-		if test "$ac_cv_lib_des_des_set_key" = "yes"; then
+-		    AC_MSG_CHECKING(for /dev/random)
+-		    if test -r /dev/random; then
+-			AC_DEFINE(HAVE_DEV_RANDOM, 1)
+-			AC_MSG_RESULT(yes)
+-		    else
+-			AC_MSG_RESULT(no)
+-		    fi
+-		    CRYPTO_PROGRAMS="idecrypt ikeygen"
+-		    CRYPTO_OBJS="pdes.o"
+-		fi
+-	fi
+-fi
+ 
+ have_threads=no
+ if test "$with_threads" != "no"; then
