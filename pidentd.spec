@@ -1,7 +1,7 @@
 Summary:	An implementation of the RFC1413 identification server
 Name:		pidentd
 Version:	3.0.19
-Release:	19
+Release:	20
 License:	GPLv2
 Group:		System/Servers
 Url:		http://www.lysator.liu.se/~pen/pidentd/
