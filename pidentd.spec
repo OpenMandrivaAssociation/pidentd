@@ -22,7 +22,7 @@ connection.
 
 %prep
 %setup -q
-%apply_patches
+%autopatch -p1
 chmod 644 src/*.{c,h} BUGS ChangeLog FAQ INSTALL README Y2K doc/rfc1413.txt doc/sgi_irix.txt
 autoconf
 
