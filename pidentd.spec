@@ -4,7 +4,7 @@ Version:	3.0.19
 Release:	21
 License:	GPLv2
 Group:		System/Servers
-Url:		http://www.lysator.liu.se/~pen/pidentd/
+Url:		https://www.lysator.liu.se/~pen/pidentd/
 Source0:	ftp://ftp.lysator.liu.se/pub/unix/ident/servers/%{name}-%{version}.tar.gz
 Source1:	identd.conf
 Patch2:		pidentd-3.0.10-install.patch
