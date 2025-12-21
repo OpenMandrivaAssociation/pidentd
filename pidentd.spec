@@ -14,6 +14,11 @@ Patch5:		pidentd-3.0.19-pinit.patch
 Requires(post,preun):	rpm-helper
 Provides:	identd
 
+BuildRequires:	autoconf
+BuildRequires:	automake
+BuildRequires:	libtool-base
+BuildRequires:	slibtool
+BuildRequires:	make
 %description
 The pidentd package contains identd, which implements the RFC1413
 identification server. Identd looks up specific TCP/IP connections and returns
